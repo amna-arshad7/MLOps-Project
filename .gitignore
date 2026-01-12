@@ -138,12 +138,18 @@ celerybeat.pid
 .env
 .envrc
 .venv
-env/
 mlops_env/
+env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# IDE settings
+.vscode/
+.idea/
+
+artifact/
 
 # Spyder project settings
 .spyderproject
