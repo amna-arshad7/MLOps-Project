@@ -243,5 +243,5 @@ Clean, modular, scalable architecture
 
 🤝 Connect
 
-If you found this project useful or have suggestions, feel free to connect.
+If you found this project useful or have any suggestions, feel free to connect.
 This project was built to learn, practice, and demonstrate real-world MLOps skills.
