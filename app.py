@@ -16,12 +16,6 @@ from src.pipline.training_pipeline import TrainPipeline
 # Initialize FastAPI application
 app = FastAPI()
 
-# Mount the 'static' directory for serving static files (like CSS)
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Set up Jinja2 template engine for rendering HTML templates
-templates = Jinja2Templates(directory='templates')
-
 # Allow all origins for Cross-Origin Resource Sharing (CORS)
 origins = ["*"]
 
@@ -73,13 +67,16 @@ class DataForm:
         self.Vehicle_Damage_Yes = form.get("Vehicle_Damage_Yes")
 
 # Route to render the main page with the form
-@app.get("/", tags=["authentication"])
-async def index(request: Request):
+@app.get("/", tags=["Health Check"])
+async def index():
     """
-    Renders the main HTML form page for vehicle data input.
+    Renders a simple JSON response to check if the backend is live.
     """
-    return templates.TemplateResponse(
-            "vehicledata.html",{"request": request, "context": "Rendering"})
+    return {
+        "status": "Online",
+        "message": "Vehicle Insurance API is running on EC2",
+        "project": "Vehicle Insurance Risk Project"
+    }
 
 # Route to trigger the model training process
 @app.get("/train")
@@ -96,7 +93,7 @@ async def trainRouteClient():
         return Response(f"Error Occurred! {e}")
 
 # Route to handle form submission and make predictions
-@app.post("/")
+@app.post("/predict")
 async def predictRouteClient(request: Request):
     """
     Endpoint to receive form data, process it, and make a prediction.
@@ -131,12 +128,8 @@ async def predictRouteClient(request: Request):
         # Interpret the prediction result as 'Response-Yes' or 'Response-No'
         status = "Response-Yes" if value == 1 else "Response-No"
 
-        # Render the same HTML page with the prediction result
-        return templates.TemplateResponse(
-            "vehicledata.html",
-            {"request": request, "context": status},
-        )
-        
+        return {"prediction": status}
+
     except Exception as e:
         return {"status": False, "error": f"{e}"}
 
