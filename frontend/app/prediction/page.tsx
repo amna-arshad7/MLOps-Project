@@ -16,7 +16,7 @@ export default function PredictionPage() {
 
         try {
             // Replace with your EC2 Public IP:5080/predict
-            const response = await axios.post('http://YOUR_EC2_IP:5080/predict', payload);
+            const response = await axios.post('http://204.236.208.131:5000/predict', payload);
             setPrediction(response.data.includes("Response-Yes") ? "High Risk / Interested" : "Low Risk / Not Interested");
         } catch (error) {
             console.error("Inference Error:", error);
